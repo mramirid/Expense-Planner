@@ -10,9 +10,7 @@ class Transaction {
   double amount;
   DateTime date;
 
-  Transaction({
-    @required this.title,
-    @required this.amount,
-    @required this.date,
-  }) : this.id = uuid.v4();
+  Transaction({@required this.title, @required this.amount})
+      : id = uuid.v4(),
+        date = DateTime.now();
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -20,8 +18,20 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Flutter App')),
-      body: Center(
-        child: Text('Widget Playground'),
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            child: Card(
+              elevation: 5,
+              color: Colors.blue,
+              child: Text('CHART!'),
+            ),
+          ),
+          Card(
+            child: Text('List of tx'),
+          ),
+        ],
       ),
     );
   }

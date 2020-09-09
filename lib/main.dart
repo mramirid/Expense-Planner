@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
+  final List<Transaction> _transactions = [
     Transaction(
       title: 'New Shoes',
       amount: 69.99,
@@ -30,12 +30,13 @@ class MyHomePage extends StatelessWidget {
     )
   ];
 
+  String _titleInput, _amountInput;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Flutter App')),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
@@ -46,8 +47,35 @@ class MyHomePage extends StatelessWidget {
               child: Text('CHART!'),
             ),
           ),
+          Card(
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Title'),
+                    onChanged: (value) => _titleInput = value,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Amount'),
+                    onChanged: (value) => _amountInput = value,
+                  ),
+                  FlatButton(
+                    child: Text('Add Transaction'),
+                    textColor: Colors.purple,
+                    onPressed: () {
+                      print('titleInput: $_titleInput');
+                      print('amountInput: $_amountInput');
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
           Column(
-            children: transactions.map((tx) {
+            children: _transactions.map((tx) {
               return Card(
                 child: Row(
                   children: [

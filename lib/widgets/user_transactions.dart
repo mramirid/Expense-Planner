@@ -20,20 +20,20 @@ class _UserTransactionsState extends State<UserTransactions> {
       amount: 16.53,
     ),
     Transaction(
-      title: 'New Shoes',
-      amount: 69.99,
+      title: 'T-Shirt Nike',
+      amount: 39.99,
     ),
     Transaction(
-      title: 'Weekly Groceries',
-      amount: 16.53,
+      title: 'Adidas Shoes',
+      amount: 45.55,
     ),
     Transaction(
-      title: 'New Shoes',
-      amount: 69.99,
+      title: 'Jacket Hoodie',
+      amount: 35.99999,
     ),
     Transaction(
-      title: 'Weekly Groceries',
-      amount: 16.53,
+      title: 'MacDonald',
+      amount: 10.5,
     )
   ];
 

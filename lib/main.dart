@@ -45,35 +45,35 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    Transaction(
-      title: 'New Shoes',
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   title: 'New Shoes',
+    //   amount: 69.99,
+    //   date: DateTime.now(),
+    // ),
     // Transaction(
     //   title: 'Weekly Groceries',
     //   amount: 16.53,
-    //   DateTime.now(),
+    //   date: DateTime.now(),
     // ),
     // Transaction(
     //   title: 'T-Shirt Nike',
     //   amount: 39.99,
-    //   DateTime.now(),
+    //   date: DateTime.now(),
     // ),
     // Transaction(
     //   title: 'Adidas Shoes',
     //   amount: 45.55,
-    //   DateTime.now(),
+    //   date: DateTime.now(),
     // ),
     // Transaction(
     //   title: 'Jacket Hoodie',
     //   amount: 35.99999,
-    //   DateTime.now(),
+    //   date: DateTime.now(),
     // ),
     // Transaction(
     //   title: 'MacDonald',
     //   amount: 10.5,
-    //   DateTime.now(),
+    //   date: DateTime.now(),
     // )
   ];
 

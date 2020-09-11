@@ -14,7 +14,7 @@ class Chart extends StatelessWidget {
     return List.generate(7, (index) {
       final curDate = DateTime.now().subtract(Duration(days: index));
 
-      final totalAmount = _recentTransactions.fold(0.0, (total, transaction) {
+      final totalAmount = _recentTransactions.fold<double>(0.0, (total, transaction) {
         if (transaction.date.day == curDate.day &&
             transaction.date.month == curDate.month &&
             transaction.date.year == curDate.year) {
@@ -27,7 +27,7 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(curDate).substring(0, 1),
         'amount': totalAmount,
       };
-    });
+    }).reversed.toList();
   }
 
   double get _lastWeekTotalAmount {
@@ -52,8 +52,7 @@ class Chart extends StatelessWidget {
                 recentTransaction['amount'],
                 _lastWeekTotalAmount == 0.0
                     ? 0.0
-                    : (recentTransaction['amount'] as double) /
-                        _lastWeekTotalAmount,
+                    : (recentTransaction['amount'] as double) / _lastWeekTotalAmount,
               ),
             );
           }).toList(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/transaction.dart';
+import 'widgets/chart.dart';
 import 'widgets/new_transaction.dart';
 import 'widgets/transaction_list.dart';
 
@@ -44,37 +45,52 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    // Transaction(
-    //   title: 'New Shoes',
-    //   amount: 69.99,
-    // ),
+    Transaction(
+      title: 'New Shoes',
+      amount: 69.99,
+      date: DateTime.now(),
+    ),
     // Transaction(
     //   title: 'Weekly Groceries',
     //   amount: 16.53,
+    //   DateTime.now(),
     // ),
     // Transaction(
     //   title: 'T-Shirt Nike',
     //   amount: 39.99,
+    //   DateTime.now(),
     // ),
     // Transaction(
     //   title: 'Adidas Shoes',
     //   amount: 45.55,
+    //   DateTime.now(),
     // ),
     // Transaction(
     //   title: 'Jacket Hoodie',
     //   amount: 35.99999,
+    //   DateTime.now(),
     // ),
     // Transaction(
     //   title: 'MacDonald',
     //   amount: 10.5,
+    //   DateTime.now(),
     // )
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((transaction) {
+      return transaction.date.isAfter(
+        DateTime.now().subtract(Duration(days: 7)),
+      );
+    }).toList();
+  }
 
   void _addNewTransaction(String inputTitle, double inputAmount) {
     setState(() {
       _transactions.add(new Transaction(
         title: inputTitle,
         amount: inputAmount,
+        date: DateTime.now(),
       ));
     });
   }
@@ -105,15 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: double.infinity,
-            child: Card(
-              elevation: 5,
-              color: Colors.blue,
-              child: Text('CHART!'),
-            ),
-          ),
-          TransactionList(_transactions)
+          Chart(_recentTransactions),
+          TransactionList(_transactions),
         ],
       ),
       floatingActionButton: FloatingActionButton(

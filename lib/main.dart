@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'models/transaction.dart';
@@ -121,15 +122,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final appBarWidget = AppBar(
-      title: Text('Expense Planner'),
-      actions: [
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => _startAddNewTransaction(),
-        ),
-      ],
-    );
+    final PreferredSizeWidget appBarWidget = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text('Expense Planner'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CupertinoButton(
+                  child: Icon(CupertinoIcons.add, color: Colors.white),
+                  onPressed: () => _startAddNewTransaction(),
+                ),
+              ],
+            ),
+          )
+        : AppBar(
+            title: Text('Expense Planner'),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _startAddNewTransaction(),
+              ),
+            ],
+          );
 
     final bodyHeight = MediaQuery.of(context).size.height -
         appBarWidget.preferredSize.height -
@@ -141,42 +155,50 @@ class _MyHomePageState extends State<MyHomePage> {
       height: isLandscape ? bodyHeight * 0.7 : bodyHeight * 0.3,
       child: Chart(_recentTransactions),
     );
+
     final transactionListWidget = Container(
       height: bodyHeight * 0.7,
       child: TransactionList(_transactions, _deleteTransaction),
     );
 
-    return Scaffold(
-      appBar: appBarWidget,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Show Chart'),
-                  Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                    value: _isChartDisplayed,
-                    onChanged: (value) => setState(() => _isChartDisplayed = value),
-                  ),
-                ],
-              ),
-            if (isLandscape) _isChartDisplayed ? chartWidget : transactionListWidget,
-            if (!isLandscape) chartWidget,
-            if (!isLandscape) transactionListWidget,
-          ],
-        ),
-      ),
-      floatingActionButton: Platform.isIOS
-          ? Container()
-          : FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () => _startAddNewTransaction(),
+    final bodyWidget = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (isLandscape)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show Chart'),
+                Switch.adaptive(
+                  activeColor: Theme.of(context).accentColor,
+                  value: _isChartDisplayed,
+                  onChanged: (value) => setState(() => _isChartDisplayed = value),
+                ),
+              ],
             ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          if (isLandscape) _isChartDisplayed ? chartWidget : transactionListWidget,
+          if (!isLandscape) chartWidget,
+          if (!isLandscape) transactionListWidget,
+        ],
+      ),
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: appBarWidget,
+            child: bodyWidget,
+          )
+        : Scaffold(
+            appBar: appBarWidget,
+            body: bodyWidget,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () => _startAddNewTransaction(),
+                  ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          );
   }
 }

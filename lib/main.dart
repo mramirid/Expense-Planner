@@ -125,7 +125,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-    // Screen height - app bar height - status bar height
     final bodyHeight = MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
@@ -137,11 +136,11 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: bodyHeight * 0.4,
+              height: bodyHeight * 0.3,
               child: Chart(_recentTransactions),
             ),
             Container(
-              height: bodyHeight * 0.6,
+              height: bodyHeight * 0.7,
               child: TransactionList(_transactions, _deleteTransaction),
             ),
           ],

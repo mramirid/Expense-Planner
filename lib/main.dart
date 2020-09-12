@@ -108,10 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startAddNewTransaction() {
     showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
       context: context,
       isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ),
       builder: (_) => GestureDetector(
         child: NewTransaction(_addNewTransaction),
         onTap: () {},
@@ -161,26 +162,28 @@ class _MyHomePageState extends State<MyHomePage> {
       child: TransactionList(_transactions, _deleteTransaction),
     );
 
-    final bodyWidget = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show Chart'),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).accentColor,
-                  value: _isChartDisplayed,
-                  onChanged: (value) => setState(() => _isChartDisplayed = value),
-                ),
-              ],
-            ),
-          if (isLandscape) _isChartDisplayed ? chartWidget : transactionListWidget,
-          if (!isLandscape) chartWidget,
-          if (!isLandscape) transactionListWidget,
-        ],
+    final bodyWidget = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show Chart', style: Theme.of(context).textTheme.headline6),
+                  Switch.adaptive(
+                    activeColor: Theme.of(context).accentColor,
+                    value: _isChartDisplayed,
+                    onChanged: (value) => setState(() => _isChartDisplayed = value),
+                  ),
+                ],
+              ),
+            if (isLandscape) _isChartDisplayed ? chartWidget : transactionListWidget,
+            if (!isLandscape) chartWidget,
+            if (!isLandscape) transactionListWidget,
+          ],
+        ),
       ),
     );
 

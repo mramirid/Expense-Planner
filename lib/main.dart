@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
+              button: TextStyle(color: Colors.white),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -85,19 +86,19 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String inputTitle, double inputAmount) {
+  void _addNewTransaction(String inputTitle, double inputAmount, DateTime pickedDate) {
     setState(() {
       _transactions.add(new Transaction(
         title: inputTitle,
         amount: inputAmount,
-        date: DateTime.now(),
+        date: pickedDate,
       ));
     });
   }
 
-  void _startAddNewTransaction(BuildContext ctx) {
+  void _startAddNewTransaction() {
     showModalBottomSheet(
-      context: ctx,
+      context: context,
       builder: (_) => GestureDetector(
         child: NewTransaction(_addNewTransaction),
         onTap: () {},
@@ -114,20 +115,22 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
+            onPressed: () => _startAddNewTransaction(),
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Chart(_recentTransactions),
-          TransactionList(_transactions),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Chart(_recentTransactions),
+            TransactionList(_transactions),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
+        onPressed: () => _startAddNewTransaction(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

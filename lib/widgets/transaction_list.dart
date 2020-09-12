@@ -48,7 +48,7 @@ class TransactionList extends StatelessWidget {
                       _transactions[index].title,
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    subtitle: Text(DateFormat.yMMMd().add_Hm().format(_transactions[index].date)),
+                    subtitle: Text(DateFormat.yMMMd().format(_transactions[index].date)),
                   ),
                 );
               },

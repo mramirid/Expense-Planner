@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
+import '../models/one_day_transactions.dart';
 import 'chart_bar.dart';
 
 class Chart extends StatelessWidget {
@@ -10,7 +11,7 @@ class Chart extends StatelessWidget {
 
   Chart(this._recentTransactions);
 
-  List<Map<String, Object>> get _lastWeekTransactions {
+  List<OneDayTransactions> get _lastWeekTransactions {
     return List.generate(7, (index) {
       final curDate = DateTime.now().subtract(Duration(days: index));
 
@@ -23,36 +24,36 @@ class Chart extends StatelessWidget {
         return total + 0.0;
       });
 
-      return {
-        'day': DateFormat.E().format(curDate).substring(0, 1),
-        'amount': totalAmount,
-      };
+      return OneDayTransactions(
+        day: DateFormat.E().format(curDate).substring(0, 1),
+        totalAmount: totalAmount,
+      );
     }).reversed.toList();
   }
 
   double get _lastWeekTotalAmount {
-    return _lastWeekTransactions.fold(0.0, (total, recentTransaction) {
-      return total + recentTransaction['amount'];
+    return _lastWeekTransactions.fold(0.0, (total, transaction) {
+      return total + transaction.totalAmount;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       elevation: 6,
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
-          children: _lastWeekTransactions.map((recentTransaction) {
+          children: _lastWeekTransactions.map((transaction) {
             return Flexible(
               fit: FlexFit.tight,
               child: ChartBar(
-                recentTransaction['day'],
-                recentTransaction['amount'],
+                transaction.day,
+                transaction.totalAmount,
                 _lastWeekTotalAmount == 0.0
                     ? 0.0
-                    : (recentTransaction['amount'] as double) / _lastWeekTotalAmount,
+                    : transaction.totalAmount / _lastWeekTotalAmount,
               ),
             );
           }).toList(),

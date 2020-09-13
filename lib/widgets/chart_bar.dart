@@ -5,7 +5,7 @@ class ChartBar extends StatelessWidget {
   final double _totalAmount;
   final double _percentageOfTotalAmount;
 
-  ChartBar(this._labelDay, this._totalAmount, this._percentageOfTotalAmount);
+  const ChartBar(this._labelDay, this._totalAmount, this._percentageOfTotalAmount);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class ChartBar extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey, width: 1),
-                      color: Color.fromRGBO(220, 220, 220, 1),
+                      color: const Color.fromRGBO(220, 220, 220, 1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),

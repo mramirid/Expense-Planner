@@ -21,7 +21,7 @@ class TransactionList extends StatelessWidget {
                     'No transactions added yet',
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     height: constraints.maxHeight * 0.7,
                     child: Image.asset(
@@ -37,13 +37,13 @@ class TransactionList extends StatelessWidget {
             itemCount: _transactions.length,
             itemBuilder: (ctx, index) {
               return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 elevation: 5,
                 child: ListTile(
                   leading: CircleAvatar(
                     radius: 30,
                     child: Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: FittedBox(child: Text('\$${_transactions[index].amount}')),
                     ),
                   ),
@@ -54,13 +54,13 @@ class TransactionList extends StatelessWidget {
                   subtitle: Text(DateFormat.yMMMEd().format(_transactions[index].date)),
                   trailing: MediaQuery.of(context).size.width > 360
                       ? FlatButton.icon(
-                          icon: Icon(Icons.delete),
-                          label: Text('Delete'),
+                          icon: const Icon(Icons.delete),
+                          label: const Text('Delete'),
                           textColor: Theme.of(context).errorColor,
                           onPressed: () => _deleteTransaction(_transactions[index].id),
                         )
                       : IconButton(
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           color: Theme.of(context).errorColor,
                           onPressed: () => _deleteTransaction(_transactions[index].id),
                         ),

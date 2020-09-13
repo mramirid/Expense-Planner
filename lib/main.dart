@@ -20,16 +20,16 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.amber,
         fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
+              headline6: const TextStyle(
                 fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
-              button: TextStyle(color: Colors.white),
+              button: const TextStyle(color: Colors.white),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
+                headline6: const TextStyle(
                   fontFamily: 'OpenSans',
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -54,14 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Transaction> get _recentTransactions {
     return _transactions.where((transaction) {
       return transaction.date.isAfter(
-        DateTime.now().subtract(Duration(days: 7)),
+        DateTime.now().subtract(const Duration(days: 7)),
       );
     }).toList();
   }
 
   void _addNewTransaction(String inputTitle, double inputAmount, DateTime pickedDate) {
     setState(() {
-      _transactions.add(new Transaction(
+      _transactions.add(Transaction(
         title: inputTitle,
         amount: inputAmount,
         date: pickedDate,
@@ -76,10 +76,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _startAddNewTransaction() {
-    showModalBottomSheet(
+    showModalBottomSheet<dynamic>(
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
       builder: (_) => GestureDetector(
@@ -92,28 +92,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final PreferredSizeWidget appBarWidget = Platform.isIOS
+    final appBarWidget = (Platform.isIOS
         ? CupertinoNavigationBar(
-            middle: Text('Expense Planner'),
+            middle: const Text('Expense Planner'),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 CupertinoButton(
-                  child: Icon(CupertinoIcons.add, color: Colors.white),
-                  onPressed: () => _startAddNewTransaction(),
+                  child: const Icon(CupertinoIcons.add, color: Colors.white),
+                  onPressed: _startAddNewTransaction,
                 ),
               ],
             ),
           )
         : AppBar(
-            title: Text('Expense Planner'),
+            title: const Text('Expense Planner'),
             actions: [
               IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _startAddNewTransaction(),
+                icon: const Icon(Icons.add),
+                onPressed: _startAddNewTransaction,
               ),
             ],
-          );
+          )) as PreferredSizeWidget;
 
     final bodyHeight = MediaQuery.of(context).size.height -
         appBarWidget.preferredSize.height -
@@ -158,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
-            navigationBar: appBarWidget,
+            navigationBar: appBarWidget as ObstructingPreferredSizeWidget,
             child: bodyWidget,
           )
         : Scaffold(
@@ -167,8 +167,8 @@ class _MyHomePageState extends State<MyHomePage> {
             floatingActionButton: Platform.isIOS
                 ? Container()
                 : FloatingActionButton(
-                    child: Icon(Icons.add),
-                    onPressed: () => _startAddNewTransaction(),
+                    child: const Icon(Icons.add),
+                    onPressed: _startAddNewTransaction,
                   ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           );

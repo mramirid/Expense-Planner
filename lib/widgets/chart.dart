@@ -9,7 +9,7 @@ import 'chart_bar.dart';
 class Chart extends StatelessWidget {
   final List<Transaction> _recentTransactions;
 
-  Chart(this._recentTransactions);
+  const Chart(this._recentTransactions);
 
   List<OneDayTransactions> get _lastWeekTransactions {
     return List.generate(7, (index) {

@@ -49,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+
   bool _isChartDisplayed = false;
 
   List<Transaction> get _recentTransactions {
@@ -90,9 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final appBarWidget = (Platform.isIOS
+  PreferredSizeWidget _buildAppBar() {
+    return (Platform.isIOS
         ? CupertinoNavigationBar(
             middle: const Text('Expense Planner'),
             trailing: Row(
@@ -113,44 +113,64 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: _startAddNewTransaction,
               ),
             ],
-          )) as PreferredSizeWidget;
+          ) as PreferredSizeWidget);
+  }
+
+  List<Widget> _buildPortraitContent(double bodyHeight) {
+    return [
+      Container(
+        height: bodyHeight * 0.3,
+        child: Chart(_recentTransactions),
+      ),
+      Container(
+        height: bodyHeight * 0.7,
+        child: TransactionList(_transactions, _deleteTransaction),
+      ),
+    ];
+  }
+
+  List<Widget> _buildLandscapeContent(double bodyHeight) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Show Chart', style: Theme.of(context).textTheme.headline6),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _isChartDisplayed,
+            onChanged: (value) => setState(() => _isChartDisplayed = value),
+          ),
+        ],
+      ),
+      _isChartDisplayed
+          ? Container(
+              height: bodyHeight * 0.7,
+              child: Chart(_recentTransactions),
+            )
+          : Container(
+              height: bodyHeight * 0.7,
+              child: TransactionList(_transactions, _deleteTransaction),
+            ),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final appBarWidget = _buildAppBar();
 
     final bodyHeight = MediaQuery.of(context).size.height -
         appBarWidget.preferredSize.height -
         MediaQuery.of(context).padding.top;
-
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-
-    final chartWidget = Container(
-      height: isLandscape ? bodyHeight * 0.7 : bodyHeight * 0.3,
-      child: Chart(_recentTransactions),
-    );
-
-    final transactionListWidget = Container(
-      height: bodyHeight * 0.7,
-      child: TransactionList(_transactions, _deleteTransaction),
-    );
 
     final bodyWidget = SafeArea(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Show Chart', style: Theme.of(context).textTheme.headline6),
-                  Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                    value: _isChartDisplayed,
-                    onChanged: (value) => setState(() => _isChartDisplayed = value),
-                  ),
-                ],
-              ),
-            if (isLandscape) _isChartDisplayed ? chartWidget : transactionListWidget,
-            if (!isLandscape) chartWidget,
-            if (!isLandscape) transactionListWidget,
+            if (!isLandscape) ..._buildPortraitContent(bodyHeight),
+            if (isLandscape) ..._buildLandscapeContent(bodyHeight),
           ],
         ),
       ),

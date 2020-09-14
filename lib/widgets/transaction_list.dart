@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:intl/intl.dart';
-
 import '../models/transaction.dart';
+import 'transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> _transactions;
-  final Function _deleteTransaction;
+  final void Function(String) _deleteTransaction;
 
-  TransactionList(this._transactions, this._deleteTransaction);
+  const TransactionList(this._transactions, this._deleteTransaction);
 
   @override
   Widget build(BuildContext context) {
@@ -35,36 +34,10 @@ class TransactionList extends StatelessWidget {
           )
         : ListView.builder(
             itemCount: _transactions.length,
-            itemBuilder: (ctx, index) {
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                elevation: 5,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: FittedBox(child: Text('\$${_transactions[index].amount}')),
-                    ),
-                  ),
-                  title: Text(
-                    _transactions[index].title,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  subtitle: Text(DateFormat.yMMMEd().format(_transactions[index].date)),
-                  trailing: MediaQuery.of(context).size.width > 360
-                      ? FlatButton.icon(
-                          icon: const Icon(Icons.delete),
-                          label: const Text('Delete'),
-                          textColor: Theme.of(context).errorColor,
-                          onPressed: () => _deleteTransaction(_transactions[index].id),
-                        )
-                      : IconButton(
-                          icon: const Icon(Icons.delete),
-                          color: Theme.of(context).errorColor,
-                          onPressed: () => _deleteTransaction(_transactions[index].id),
-                        ),
-                ),
+            itemBuilder: (_, index) {
+              return TransactionItem(
+                transaction: _transactions[index],
+                deleteTransaction: _deleteTransaction,
               );
             },
           );

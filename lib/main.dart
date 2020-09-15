@@ -48,7 +48,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
-  final List<Transaction> _transactions = [];
+  final List<Transaction> _transactions = [
+    Transaction(
+      title: 'New Shoes',
+      amount: 69.99,
+      date: DateTime.now().subtract(const Duration(days: 0)),
+    ),
+    Transaction(
+      title: 'Weekly Groceries',
+      amount: 16.53,
+      date: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    Transaction(
+      title: 'T-Shirt Nike',
+      amount: 39.99,
+      date: DateTime.now().subtract(const Duration(days: 2)),
+    ),
+    Transaction(
+      title: 'Adidas Shoes',
+      amount: 45.55,
+      date: DateTime.now().subtract(const Duration(days: 3)),
+    ),
+    Transaction(
+      title: 'Jacket Hoodie',
+      amount: 35.99999,
+      date: DateTime.now().subtract(const Duration(days: 4)),
+    ),
+    Transaction(
+      title: 'MacDonald',
+      amount: 10.5,
+      date: DateTime.now().subtract(const Duration(days: 5)),
+    )
+  ];
   bool _isChartDisplayed = false;
 
   @override

@@ -1,6 +1,6 @@
 # Expense Planner App
 
-Expense Planner app made with Flutter (In memory database)
+Expense Planner app made with Flutter SDK (In memory database)
 
 <br>
 
@@ -13,3 +13,5 @@ Expense Planner app made with Flutter (In memory database)
 - Module 4 - Widgets, styling & theming
 
 - Module 5 - Responsive & adaptive user interfaces
+
+- Module 6 - Widget & flutter internals
